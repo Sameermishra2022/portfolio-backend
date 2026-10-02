@@ -1,4 +1,4 @@
-const Contact = require("../Models/Model.js"); // Path exact bilkul sahi hai
+const Contact = require("../Models/Model.js");
 
 // Contact Form Submit Handler
 exports.submitContact = async (req, res) => {
@@ -11,32 +11,32 @@ exports.submitContact = async (req, res) => {
     if (!name || !email || !message) {
       return res.status(400).json({ 
         success: false, 
-        message: "Sabhi fields (name, email, message) fill karein!" 
+        message: "All fields (name, email, message) are required!" 
       });
     }
 
-    // 2. Naya document instance create karein
+    // 2. Create new document instance
     const newContact = new Contact({
       name,
       email,
       message
     });
 
-    // 3. Database me actual save operation (await ZARURI hai)
+    // 3. Save to database
     await newContact.save();
 
     console.log("Data successfully saved to MongoDB Atlas!");
 
     return res.status(201).json({
       success: true,
-      message: "Aapka message successfully submit ho gaya hai!"
+      message: "Your message has been submitted successfully!"
     });
 
   } catch (error) {
     console.error("Database Save Error:", error);
     return res.status(500).json({
       success: false,
-      message: "Server error! Data save nahi ho paya.",
+      message: "Server error! Unable to send your message.",
       error: error.message
     });
   }
